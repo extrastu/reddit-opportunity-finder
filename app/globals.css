@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f7f4ec;
+  background-image: radial-gradient(circle at 1px 1px, rgba(27, 26, 23, 0.05) 1px, transparent 0);
+  background-size: 3px 3px;
+  color: #1b1a17;
+}
+
+::selection {
+  background: #2f6f4e;
+  color: #f7f4ec;
+}
+
+.rule {
+  border-color: #dad4c2;
+}
+
+.stamp {
+  transform: rotate(-4deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
