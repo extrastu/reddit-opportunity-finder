@@ -10,8 +10,8 @@ export default function LibraryPage() {
   return (
     <main>
       <Nav />
-      <header className='border-b-2 border-ink px-6 pb-6 pt-10 sm:px-10'>
-        <div className='mx-auto max-w-3xl'>
+      <header className='border-b-2 border-ink pb-6 pt-10 '>
+        <div className='mx-auto max-w-3xl px-10'>
           <div className='font-mono text-[11px] uppercase tracking-widest text-ink2'>持久机会库 · 已自动去重</div>
           <h1 className='mt-3 font-display text-4xl font-bold sm:text-5xl'>机会库</h1>
           <p className='mt-3 max-w-xl text-[13px] leading-relaxed text-ink2'>
@@ -21,7 +21,7 @@ export default function LibraryPage() {
         </div>
       </header>
 
-      <div className='mx-auto max-w-3xl '>
+      <div className='mx-auto max-w-3xl px-10'>
         {sorted.map((o) => (
           <div key={o.id} className='border-b border-rule py-8 first:pt-8'>
             <div className='flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-widest text-ink2'>

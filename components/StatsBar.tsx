@@ -13,7 +13,7 @@ export default function StatsBar({ items }: { items: Opportunity[] }) {
   ];
 
   return (
-    <div className='mx-auto max-w-3xl '>
+    <div className='mx-auto max-w-3xl px-10'>
       <dl className='grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4'>
         {stats.map(([label, value]) => (
           <div key={label} className='bg-paper px-4 py-4'>

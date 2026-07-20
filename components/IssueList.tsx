@@ -10,7 +10,7 @@ function fmt(date: string) {
 export default function IssueList({ issues }: { issues: Issue[] }) {
   const ordered = [...issues].reverse(); // latest first
   return (
-    <div className='mx-auto max-w-3xl '>
+    <div className='mx-auto max-w-3xl px-10'>
       <h2 className='border-b border-rule pb-3 pt-8 font-mono text-[11px] uppercase tracking-widest text-ink2'>
         往期日报
       </h2>
