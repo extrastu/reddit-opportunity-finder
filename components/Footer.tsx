@@ -17,10 +17,11 @@ const SOURCES = [
   "r/AppIdeas",
 ];
 
+/** 页脚数据来源说明 */
 export default function Footer() {
   return (
-    <footer className='border-t-2 border-ink py-10 '>
-      <div className='mx-auto max-w-3xl px-10'>
+    <footer className='border-t-2 border-ink py-8 sm:py-10'>
+      <div className='shell'>
         <p className='font-mono text-[10px] uppercase tracking-widest text-ink2'>数据来源</p>
         <div className='mt-2 flex flex-wrap gap-1.5'>
           {SOURCES.map((s) => (
@@ -29,7 +30,7 @@ export default function Footer() {
             </span>
           ))}
         </div>
-        <p className='mt-6 max-w-xl text-[12px] leading-relaxed text-ink2'>
+        <p className='mt-5 max-w-xl text-xs leading-relaxed text-ink2 sm:mt-6 sm:text-[12px]'>
           自动忽略娱乐、政治、Meme、晒图和「求安利」类无机会帖； 只保留能用软件解决、且现有主流产品未覆盖的抱怨。
           机会库会持续去重合并，同一痛点跨社区反复出现时置信度自动提高。
         </p>

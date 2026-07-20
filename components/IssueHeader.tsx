@@ -1,42 +1,44 @@
 import Link from "next/link";
 import { Issue, ISSUE_DATES } from "@/lib/issues";
 
+/** 将 YYYY-MM-DD 格式化为「Y 年 M 月 D 日」 */
 function fmt(date: string) {
   const [y, m, d] = date.split("-");
   return `${y} 年 ${Number(m)} 月 ${Number(d)} 日`;
 }
 
+/** 单期日报刊头：窄屏缩小标题，导航加大触控 */
 export default function IssueHeader({ issue }: { issue: Issue }) {
   const idx = ISSUE_DATES.indexOf(issue.date as (typeof ISSUE_DATES)[number]);
   const prev = idx > 0 ? ISSUE_DATES[idx - 1] : null;
   const next = idx < ISSUE_DATES.length - 1 ? ISSUE_DATES[idx + 1] : null;
 
   return (
-    <header className='border-b-2 border-ink pb-6 pt-10 '>
-      <div className='mx-auto max-w-3xl px-10'>
-        <div className='flex items-baseline justify-between font-mono text-[11px] uppercase tracking-widest text-ink2'>
+    <header className='border-b-2 border-ink pb-5 pt-8 sm:pb-6 sm:pt-10'>
+      <div className='shell'>
+        <div className='flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-widest text-ink2'>
           <span>Issue No.{issue.no.toString().padStart(2, "0")}</span>
           <span>{fmt(issue.date)}</span>
         </div>
-        <h1 className='mt-3 font-display text-4xl font-bold leading-tight sm:text-5xl'>
+        <h1 className='mt-2 font-display text-3xl font-bold leading-tight sm:mt-3 sm:text-4xl md:text-5xl'>
           {issue.entries.length > 0 ? `今日发现 ${issue.entries.length} 个信号` : "今日无新信号"}
         </h1>
-        <p className='mt-3 max-w-xl text-[13px] leading-relaxed text-ink2'>
+        <p className='mt-3 max-w-xl text-sm leading-relaxed text-ink2 sm:text-[13px]'>
           机会库累计追踪 {issue.trackedSoFar} 个机会，其中 {issue.entries.filter((e) => e.status === "new").length}{" "}
           个今天首次出现，
           {issue.entries.filter((e) => e.status === "spike").length} 个热度骤增。 另有 {issue.silentCount}{" "}
           个机会今天继续被提及（+{issue.silentMentions} 次）， 但无显著变化，已自动去重、不再重复展开。
         </p>
-        <div className='mt-5 flex justify-between font-mono text-[11px] uppercase tracking-widest'>
+        <div className='mt-4 flex justify-between font-mono text-[11px] uppercase tracking-widest sm:mt-5'>
           {prev ? (
-            <Link href={`/issues/${prev}`} className='text-ink2 hover:text-ink'>
+            <Link href={`/issues/${prev}`} className='py-2 text-ink2 hover:text-ink'>
               ← 上一期
             </Link>
           ) : (
             <span />
           )}
           {next ? (
-            <Link href={`/issues/${next}`} className='text-ink2 hover:text-ink'>
+            <Link href={`/issues/${next}`} className='py-2 text-ink2 hover:text-ink'>
               下一期 →
             </Link>
           ) : (

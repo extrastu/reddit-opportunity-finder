@@ -20,7 +20,7 @@ export default function IssuePage({ params }: { params: { date: string } }) {
     <main>
       <Nav />
       <IssueHeader issue={issue} />
-      <div className="h-8" />
+      <div className='h-6 sm:h-8' />
       <IssueFeed entries={issue.entries} />
       <Recommendation issue={issue} />
       <Footer />

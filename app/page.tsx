@@ -12,7 +12,7 @@ export default function Home() {
     <main>
       <Nav />
       <Masthead />
-      <div className="py-8">
+      <div className='py-6 sm:py-8'>
         <StatsBar items={opportunities} />
       </div>
       <IssueList issues={issues} />
