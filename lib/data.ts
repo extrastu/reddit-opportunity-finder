@@ -53,6 +53,75 @@ export const statusOn = (o: Opportunity, date: string): DayStatus => {
 
 export const opportunities: Opportunity[] = [
   {
+    id: "op-043",
+    title: "AI 编程会话「意图漂移」提交前审计",
+    subreddits: ["r/SideProject"],
+    quote:
+      "The AI is great at the thing I ask it to do and terrible at remembering why we're doing it.",
+    quoteAuthor: "u/Aurascriptworks",
+    problem:
+      "AI 编程工具在长会话或跨会话中会遗忘项目的 why、既有决策与约束，输出可能逐步偏离原目标；开发者必须反复补上下文并持续人工审查，否则可能把偏航改动带进提交。",
+    workaround:
+      "维护 notes/CLAUDE.md/AGENTS.md，每次新会话粘贴 preamble；长任务主动拆成短会话，并逐步人工 review git diff。",
+    users: "高频使用 Claude Code、Codex、Cursor 的独立开发者与小型 AI-first 团队",
+    solution:
+      "macOS 本地 companion：开始任务时固定 goal/why/scope，读取本地会话记录与 git diff，在提交前给出偏离目标、越界文件和缺失验证的简短审计。",
+    score: { frequency: 3, urgency: 3, pay: 2, competition: 5, complexity: 4 },
+    gap: "IntentGuard、RunTrim、Shipmoor 已覆盖意图审计、任务契约和提交前验证，Contextify 已覆盖 macOS 本地会话记忆；剩余空间主要是更轻量的原生菜单栏 UI 与个人 goal/why 可视化，不是明显功能空白。",
+    mvp: [
+      "固定本次任务的 goal、why 与允许修改范围",
+      "读取 Claude Code/Codex 本地会话与 git diff",
+      "提交前输出意图偏离、越界文件与验证缺口",
+    ],
+    buildDays: 14,
+    revenue: "一次性 $9.99–19.99；免费 CLI 竞品较多，不建议高价订阅",
+    platforms: ["macOS", "Menu Bar", "Local First", "AI Agent"],
+    trend: "Growing",
+    whyNow:
+      "同一讨论串中 4 个独立账号重复描述上下文衰减；同时多款竞品已进入市场，说明问题升温，也说明窗口正在快速拥挤。",
+    log: [
+      {
+        date: "2026-07-20",
+        delta: 4,
+        note: "4 个独立账号提到跨会话失忆或长会话偏航；来源：https://www.reddit.com/r/SideProject/comments/1v0t9qv/whats_the_biggest_frustration_you_still_have_when/oyhr5tx/",
+      },
+    ],
+  },
+  {
+    id: "op-042",
+    title: "Gmail 收件箱「回潮预警」",
+    subreddits: ["r/GMail"],
+    quote: "still unsolved: keeping it this way. the pile has rebuilt before.",
+    quoteAuthor: "u/WiseIndependent15",
+    problem:
+      "一次性批量清理能把未读归零，但新营销邮件仍持续回流；用户只能靠每日巡检维护，出差或中断后又会重新堆积。",
+    workaround:
+      "搜索 unsubscribe、按发件人批删、全部标为已读，每天花十分钟清扫并手工维护大量 Gmail 过滤器。",
+    users: "长期订阅品牌邮件、曾清理后复发的 Gmail 重度用户与多邮箱知识工作者",
+    solution:
+      "本地优先扩展，建立正常邮件预算，只读邮件头统计每日流量，识别新增或突增发件人并生成过滤与退订建议。",
+    score: { frequency: 5, urgency: 3, pay: 3, competition: 4, complexity: 2 },
+    gap: "Clean Email、SaneBox 及本地清理扩展已覆盖批删、退订和自动分流；窄缺口是围绕正常邮件基线持续检测新增或异常增长来源，专门预防清理后回潮。",
+    mvp: [
+      "按发件人和域名建立每日邮件基线",
+      "新增与异常增长发件人预警",
+      "一键生成 Gmail 过滤与退订建议",
+    ],
+    buildDays: 9,
+    revenue: "一次性 $12.99，免费试扫一个月数据",
+    platforms: ["Chrome Extension", "macOS", "Local First", "Automation"],
+    trend: "Stable",
+    whyNow:
+      "一次性清理工具已经成熟，但真实复盘显示长期维持仍靠每日手工巡检；评论首次把它具体化为可量化的 email budget。",
+    log: [
+      {
+        date: "2026-07-20",
+        delta: 1,
+        note: "清理复盘显示收件箱反复回潮，评论提出按正常邮件基线识别泄漏来源；来源：https://www.reddit.com/r/GMail/comments/1v0jr0b/",
+      },
+    ],
+  },
+  {
     id: "op-041",
     title: "菜单栏级「屏幕时间」按 App 分类自动打标签",
     subreddits: ["r/macapps", "r/productivity"],
