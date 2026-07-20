@@ -6,13 +6,12 @@ export type Score = {
   complexity: number;
 };
 
+export type LogEntry = { date: string; delta: number; note?: string };
+
 export type Opportunity = {
   id: string;
-  no: number;
   title: string;
   subreddits: string[];
-  mentions: number;
-  firstSeen: string;
   quote: string;
   quoteAuthor: string;
   problem: string;
@@ -27,19 +26,36 @@ export type Opportunity = {
   platforms: string[];
   trend: "Growing" | "Stable" | "Declining";
   whyNow: string;
+  log: LogEntry[]; // chronological, log[0] = first-ever appearance ("NEW")
 };
+
+export const SPIKE_THRESHOLD = 8;
 
 export const total = (s: Score) =>
   s.frequency + s.urgency + s.pay + (6 - s.competition) + (6 - s.complexity);
 
+export const firstSeen = (o: Opportunity) => o.log[0].date;
+export const lastSeen = (o: Opportunity) => o.log[o.log.length - 1].date;
+export const totalMentions = (o: Opportunity) =>
+  o.log.reduce((sum, e) => sum + e.delta, 0);
+export const entryOn = (o: Opportunity, date: string) =>
+  o.log.find((e) => e.date === date);
+
+export type DayStatus = "new" | "spike" | "silent" | "absent";
+
+export const statusOn = (o: Opportunity, date: string): DayStatus => {
+  const entry = entryOn(o, date);
+  if (!entry) return "absent";
+  if (entry.date === o.log[0].date) return "new";
+  if (entry.delta >= SPIKE_THRESHOLD) return "spike";
+  return "silent";
+};
+
 export const opportunities: Opportunity[] = [
   {
     id: "op-041",
-    no: 1,
     title: "菜单栏级「屏幕时间」按 App 分类自动打标签",
     subreddits: ["r/macapps", "r/productivity"],
-    mentions: 34,
-    firstSeen: "2026-06-02",
     quote: "why can't Screen Time just tell me which Xcode project I was actually in",
     quoteAuthor: "u/throwaway_devtools",
     problem:
@@ -55,14 +71,17 @@ export const opportunities: Opportunity[] = [
     platforms: ["macOS", "Menu Bar", "Local First"],
     trend: "Growing",
     whyNow: "远程办公按小时计费的自由职业者持续增长，Screen Time 一直没做窗口级细分。",
+    log: [
+      { date: "2026-07-15", delta: 30 },
+      { date: "2026-07-16", delta: 9, note: "同类贴在 r/macapps 被顶到热门" },
+      { date: "2026-07-18", delta: 2 },
+      { date: "2026-07-19", delta: 1 },
+    ],
   },
   {
     id: "op-039",
-    no: 2,
     title: "Obsidian 每日笔记的「随手拍」附件自动归位",
     subreddits: ["r/ObsidianMD"],
-    mentions: 27,
-    firstSeen: "2026-06-11",
     quote: "I hate that every screenshot I paste just dumps into one giant attachments folder",
     quoteAuthor: "u/vault_hoarder",
     problem: "Obsidian 粘贴图片默认全塞进一个 attachments 文件夹，几百篇笔记后完全找不回哪张图属于哪篇。",
@@ -75,38 +94,18 @@ export const opportunities: Opportunity[] = [
     buildDays: 12,
     revenue: "一次性 $9.99",
     platforms: ["iOS", "macOS", "Widget", "Local First"],
-    trend: "Stable",
-    whyNow: "Obsidian 用户基数稳定增长，iCloud vault 同步已成熟，移动端摄影工作流仍是空白。",
-  },
-  {
-    id: "op-037",
-    no: 3,
-    title: "Apple Music 播放列表「去重 + 找出被删单曲」",
-    subreddits: ["r/AppleMusic", "r/mac"],
-    mentions: 19,
-    firstSeen: "2026-05-28",
-    quote: "does anyone know a way to find which songs got pulled from my playlists after a label dispute",
-    quoteAuthor: "u/vinyl_to_digital",
-    problem: "版权下架、专辑改版会让播放列表悄悄消失歌曲，用户毫无察觉，长期收藏的歌单逐渐「烂尾」。",
-    workaround: "定期手动逐首核对，或干脆放弃维护大歌单。",
-    users: "十年以上的 Apple Music 重度用户、歌单策展人",
-    solution: "MusicKit 授权后定期快照歌单，diff 出被移除/替换的曲目并推送通知，一键找替代版本。",
-    score: { frequency: 3, urgency: 3, pay: 3, competition: 1, complexity: 2 },
-    gap: "Spotify 生态有类似工具，Apple Music 这块完全是空白，MusicKit 官方 API 支持良好。",
-    mvp: ["歌单快照 + 每周 diff", "下架通知", "同名替代曲目建议"],
-    buildDays: 9,
-    revenue: "订阅 $2.99/月（多歌单监控）",
-    platforms: ["macOS", "iOS", "Apple Music", "Widget"],
     trend: "Growing",
-    whyNow: "近半年版权下架讨论帖明显增多，MusicKit v2 新增了历史元数据接口。",
+    whyNow: "Obsidian 用户基数稳定增长，iCloud vault 同步已成熟，移动端摄影工作流仍是空白。",
+    log: [
+      { date: "2026-07-15", delta: 27 },
+      { date: "2026-07-16", delta: 2 },
+      { date: "2026-07-19", delta: 10, note: "同款吐槽帖被搬到 r/Notion 交叉讨论，热度外溢" },
+    ],
   },
   {
     id: "op-035",
-    no: 4,
     title: "Gmail 菜单栏「等待回复」雷达",
     subreddits: ["r/GMail", "r/productivity", "r/Entrepreneur"],
-    mentions: 41,
-    firstSeen: "2026-05-15",
     quote: "I have to manually scroll through sent mail every Monday just to see who ghosted me",
     quoteAuthor: "u/freelance_pm",
     problem: "自由职业者/小团队负责人需要追踪「发出去但没人回」的邮件，Gmail 没有原生的等待跟进视图。",
@@ -121,14 +120,40 @@ export const opportunities: Opportunity[] = [
     platforms: ["macOS", "Menu Bar", "Widget"],
     trend: "Growing",
     whyNow: "r/GMail 和 r/Entrepreneur 里「跟进邮件」类抱怨帖近两月连续出现，Gmail API 只读权限审核已简化。",
+    log: [
+      { date: "2026-07-15", delta: 24 },
+      { date: "2026-07-16", delta: 1 },
+      { date: "2026-07-18", delta: 11, note: "有人发帖吐槽 Boomerang 涨价，评论区大量共鸣" },
+      { date: "2026-07-19", delta: 5 },
+    ],
+  },
+  {
+    id: "op-037",
+    title: "Apple Music 播放列表「去重 + 找出被删单曲」",
+    subreddits: ["r/AppleMusic", "r/mac"],
+    quote: "does anyone know a way to find which songs got pulled from my playlists after a label dispute",
+    quoteAuthor: "u/vinyl_to_digital",
+    problem: "版权下架、专辑改版会让播放列表悄悄消失歌曲，用户毫无察觉，长期收藏的歌单逐渐「烂尾」。",
+    workaround: "定期手动逐首核对，或干脆放弃维护大歌单。",
+    users: "十年以上的 Apple Music 重度用户、歌单策展人",
+    solution: "MusicKit 授权后定期快照歌单，diff 出被移除/替换的曲目并推送通知，一键找替代版本。",
+    score: { frequency: 3, urgency: 3, pay: 3, competition: 1, complexity: 2 },
+    gap: "Spotify 生态有类似工具，Apple Music 这块完全是空白，MusicKit 官方 API 支持良好。",
+    mvp: ["歌单快照 + 每周 diff", "下架通知", "同名替代曲目建议"],
+    buildDays: 9,
+    revenue: "订阅 $2.99/月（多歌单监控）",
+    platforms: ["macOS", "iOS", "Apple Music", "Widget"],
+    trend: "Growing",
+    whyNow: "近半年版权下架讨论帖明显增多，MusicKit v2 新增了历史元数据接口。",
+    log: [
+      { date: "2026-07-16", delta: 19 },
+      { date: "2026-07-17", delta: 1 },
+    ],
   },
   {
     id: "op-033",
-    no: 5,
     title: "Notion 数据库「本地只读镜像」防丢失",
     subreddits: ["r/Notion", "r/SmallBusiness"],
-    mentions: 22,
-    firstSeen: "2026-06-08",
     quote: "there should be a way to just have a local backup that isn't a giant markdown export mess",
     quoteAuthor: "u/agency_ops",
     problem: "小团队用 Notion 存核心业务数据，担心账号被封/误删/断网无法访问，官方导出是一坨 Markdown+CSV 很难用。",
@@ -143,14 +168,15 @@ export const opportunities: Opportunity[] = [
     platforms: ["macOS", "Local First", "Automation"],
     trend: "Stable",
     whyNow: "Notion 近期几次区域性故障上了 r/SmallBusiness 热帖，用户对「单点依赖」的焦虑在上升。",
+    log: [
+      { date: "2026-07-17", delta: 22 },
+      { date: "2026-07-18", delta: 2 },
+    ],
   },
   {
     id: "op-030",
-    no: 6,
     title: "Xcode 构建失败「一句话摘要」通知",
     subreddits: ["r/swift", "r/iOSProgramming"],
-    mentions: 30,
-    firstSeen: "2026-05-20",
     quote: "I'm looking for something that just tells me WHY the build failed without me scrolling the log",
     quoteAuthor: "u/swiftui_grind",
     problem: "Xcode 构建失败日志冗长，尤其是 SwiftUI 类型推断错误堆栈很长，独立开发者切到别的窗口后经常忘了错误在哪。",
@@ -165,14 +191,15 @@ export const opportunities: Opportunity[] = [
     platforms: ["macOS", "Menu Bar", "AI Agent"],
     trend: "Stable",
     whyNow: "SwiftUI 报错信息以「难读」著称的讨论长期存在，本地小模型摘要成本已经足够低。",
+    log: [
+      { date: "2026-07-17", delta: 18 },
+      { date: "2026-07-19", delta: 1 },
+    ],
   },
   {
     id: "op-028",
-    no: 7,
     title: "多显示器「Launchpad 记忆」— 应用固定屏位",
     subreddits: ["r/mac", "r/macapps"],
-    mentions: 25,
-    firstSeen: "2026-06-14",
     quote: "why can't macOS just remember which monitor each app goes on, every single reboot I have to redrag everything",
     quoteAuthor: "u/dual_monitor_pain",
     problem: "外接显示器断连重连、重启后窗口位置全部重置，多屏用户每天要重新拖拽排布。",
@@ -187,14 +214,15 @@ export const opportunities: Opportunity[] = [
     platforms: ["macOS", "Automation", "Local First"],
     trend: "Growing",
     whyNow: "居家办公多屏配置持续普及，此类抱怨帖每月都在 r/mac 复现。",
+    log: [
+      { date: "2026-07-18", delta: 21 },
+      { date: "2026-07-19", delta: 2 },
+    ],
   },
   {
     id: "op-025",
-    no: 8,
     title: "SaaS 独立开发者的「MRR 流失预警」小组件",
     subreddits: ["r/SaaS", "r/IndieDev"],
-    mentions: 18,
-    firstSeen: "2026-06-05",
     quote: "I have to do this every day: open Stripe dashboard just to see if anyone cancelled",
     quoteAuthor: "u/bootstrapped_founder",
     problem: "独立开发者每天手动打开 Stripe 后台确认有没有掉单，缺一个桌面级即时可见的流失信号。",
@@ -209,14 +237,12 @@ export const opportunities: Opportunity[] = [
     platforms: ["macOS", "Widget", "Menu Bar"],
     trend: "Growing",
     whyNow: "r/SaaS 和 r/IndieDev 近期「今天又掉了一单」类吐槽帖持续走高。",
+    log: [{ date: "2026-07-19", delta: 18 }],
   },
   {
     id: "op-021",
-    no: 9,
     title: "个人 Self-host 服务「一张卡片」健康面板",
     subreddits: ["r/selfhosted"],
-    mentions: 21,
-    firstSeen: "2026-05-30",
     quote: "this is annoying, I have five different tabs open just to check if my services are still alive",
     quoteAuthor: "u/homelab_tinkerer",
     problem: "自建 NAS/Docker 服务一多，用户要开好几个浏览器标签逐个确认在线状态，缺一个原生轻量总览。",
@@ -231,11 +257,6 @@ export const opportunities: Opportunity[] = [
     platforms: ["macOS", "Menu Bar", "Widget", "Local First"],
     trend: "Stable",
     whyNow: "r/selfhosted 订阅数持续增长，付费意愿偏低但维护成本也低，适合作为长尾补充产品。",
+    log: [{ date: "2026-07-19", delta: 16 }],
   },
 ];
-
-export const recommendation = {
-  pick: opportunities[3], // Gmail follow-up radar
-  reason:
-    "分数最高、竞品是重型订阅工具留出的空隙最大，且完全落在只读 API + 菜单栏本地判定的舒适区，两周能收敛到可上架版本。",
-};

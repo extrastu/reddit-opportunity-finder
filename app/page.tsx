@@ -1,21 +1,21 @@
+import Nav from "@/components/Nav";
 import Masthead from "@/components/Masthead";
 import StatsBar from "@/components/StatsBar";
-import Feed from "@/components/Feed";
-import Trends from "@/components/Trends";
-import Recommendation from "@/components/Recommendation";
+import IssueList from "@/components/IssueList";
 import Footer from "@/components/Footer";
 import { opportunities } from "@/lib/data";
+import { listIssues } from "@/lib/issues";
 
 export default function Home() {
+  const issues = listIssues();
   return (
     <main>
+      <Nav />
       <Masthead />
       <div className="py-8">
         <StatsBar items={opportunities} />
       </div>
-      <Feed items={opportunities} />
-      <Trends items={opportunities} />
-      <Recommendation />
+      <IssueList issues={issues} />
       <Footer />
     </main>
   );

@@ -1,19 +1,27 @@
-import { Opportunity } from "@/lib/data";
+import { firstSeen, lastSeen, totalMentions } from "@/lib/data";
+import { IssueEntry } from "@/lib/issues";
 import ScoreMeter from "./ScoreMeter";
 
-export default function OpportunityCard({ o }: { o: Opportunity }) {
+export default function OpportunityCard({ entry }: { entry: IssueEntry }) {
+  const { o, status, delta, note } = entry;
+
   return (
     <article className="border-b border-rule py-9 first:pt-0">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-widest text-ink2">
-        <span>No.{o.no.toString().padStart(2, "0")}</span>
-        <span className="text-rule">·</span>
+        <span
+          className={`rounded-sm px-1.5 py-0.5 font-bold text-paper ${
+            status === "new" ? "bg-signal" : "bg-flag"
+          }`}
+        >
+          {status === "new" ? "NEW" : "SPIKE +" + delta}
+        </span>
         {o.subreddits.map((s) => (
           <span key={s} className="rounded-sm bg-paper2 px-1.5 py-0.5">
             {s}
           </span>
         ))}
         <span className="text-rule">·</span>
-        <span>{o.mentions} 次提及</span>
+        <span>累计 {totalMentions(o)} 次提及</span>
         <span className="text-rule">·</span>
         <span
           className={
@@ -30,8 +38,12 @@ export default function OpportunityCard({ o }: { o: Opportunity }) {
 
       <h2 className="mt-2 font-display text-2xl font-bold leading-snug">{o.title}</h2>
 
+      {note && (
+        <p className="mt-1 text-[12px] text-flag">触发原因：{note}</p>
+      )}
+
       <blockquote className="mt-3 border-l-2 border-ink pl-4 font-display text-[15px] italic leading-relaxed text-ink2">
-        “{o.quote}”
+        "{o.quote}"
         <span className="mt-1 block font-mono text-[11px] not-italic tracking-wide text-ink2/70">
           — {o.quoteAuthor}
         </span>
@@ -89,6 +101,10 @@ export default function OpportunityCard({ o }: { o: Opportunity }) {
       <p className="mt-4 text-[12.5px] text-ink2">
         <span className="font-mono text-[10px] uppercase tracking-widest text-amber">为什么是现在　</span>
         {o.whyNow}
+      </p>
+
+      <p className="mt-2 font-mono text-[10px] text-ink2/70">
+        首次出现 {firstSeen(o)} · 最近提及 {lastSeen(o)}
       </p>
     </article>
   );
