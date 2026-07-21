@@ -1,12 +1,4 @@
-import {
-  Opportunity,
-  opportunities,
-  entryOn,
-  statusOn,
-  total,
-  totalMentions,
-  firstSeen,
-} from "./data";
+import { Opportunity, opportunities, entryOn, statusOn, total, totalMentions, firstSeen } from "./data";
 
 export const ISSUE_DATES = [
   "2026-07-15",
@@ -15,6 +7,7 @@ export const ISSUE_DATES = [
   "2026-07-18",
   "2026-07-19",
   "2026-07-20",
+  "2026-07-21",
 ] as const;
 
 export type IssueEntry = {

@@ -7,7 +7,7 @@ export default function Recommendation({ issue }: { issue: Issue }) {
   if (!pick) return null;
 
   return (
-    <section className='shell pb-8 sm:pb-10'>
+    <section className='shell py-8 sm:pb-10'>
       <div className='border-2 border-flag bg-amberDim/40 p-4 sm:p-6'>
         <p className='font-mono text-[10px] uppercase tracking-widest text-flag'>如果今天只做一个</p>
         <h3 className='mt-2 font-display text-xl font-bold leading-snug sm:text-2xl'>{pick.o.title}</h3>
