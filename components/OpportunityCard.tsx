@@ -56,6 +56,13 @@ export default function OpportunityCard({ entry }: { entry: IssueEntry }) {
         </div>
       </div>
 
+      {o.frequencyEvidence && (
+        <p className='mt-4 text-sm leading-relaxed text-ink2 sm:text-[12.5px]'>
+          <span className='font-mono text-[10px] uppercase tracking-widest text-ink2'>频率依据　</span>
+          {o.frequencyEvidence}
+        </p>
+      )}
+
       <div className='mt-5 border border-rule bg-paper2/60 p-3.5 sm:p-4'>
         <div className='font-mono text-[10px] uppercase tracking-widest text-signal'>MVP · {o.buildDays} 天可上线</div>
         <p className='mt-1 text-sm text-ink2 sm:text-[13px]'>{o.solution}</p>

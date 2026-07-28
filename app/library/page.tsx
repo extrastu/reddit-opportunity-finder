@@ -47,6 +47,12 @@ export default function LibraryPage() {
                 <ScoreMeter score={o.score} />
               </div>
             </div>
+            {o.frequencyEvidence && (
+              <p className='mt-3 text-sm leading-relaxed text-ink2 sm:text-[12.5px]'>
+                <span className='font-mono text-[10px] uppercase tracking-widest text-ink2'>频率依据　</span>
+                {o.frequencyEvidence}
+              </p>
+            )}
           </div>
         ))}
       </div>
