@@ -22,6 +22,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.9,
     },
+    {
+      url: `${siteUrl}/feed.xml`,
+      lastModified: latestDate,
+      changeFrequency: "daily",
+      priority: 0.6,
+    },
   ];
 
   const issueRoutes: MetadataRoute.Sitemap = issues.map((issue) => ({

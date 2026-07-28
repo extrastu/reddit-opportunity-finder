@@ -17,12 +17,20 @@ const SOURCES = [
   "r/AppIdeas",
 ];
 
-/** 页脚数据来源说明 */
+/** 页脚：数据来源 + RSS 订阅入口 */
 export default function Footer() {
   return (
     <footer className='border-t-2 border-ink py-8 sm:py-10'>
       <div className='shell'>
-        <p className='font-mono text-[10px] uppercase tracking-widest text-ink2'>数据来源</p>
+        <div className='flex flex-wrap items-baseline justify-between gap-3'>
+          <p className='font-mono text-[10px] uppercase tracking-widest text-ink2'>数据来源</p>
+          <a
+            href='/feed.xml'
+            className='font-mono text-[11px] uppercase tracking-widest text-ink2 underline-offset-2 hover:text-ink hover:underline'
+          >
+            RSS 订阅
+          </a>
+        </div>
         <div className='mt-2 flex flex-wrap gap-1.5'>
           {SOURCES.map((s) => (
             <span key={s} className='rounded-sm bg-paper2 px-1.5 py-0.5 font-mono text-[11px] text-ink2'>

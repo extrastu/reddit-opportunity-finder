@@ -29,6 +29,14 @@ export const metadata: Metadata = {
   publisher: SITE_NAME,
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": [
+        {
+          url: "/feed.xml",
+          title: `${SITE_NAME} 日报 RSS`,
+        },
+      ],
+    },
   },
   openGraph: {
     type: "website",
