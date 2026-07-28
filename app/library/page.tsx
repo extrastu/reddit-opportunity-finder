@@ -1,8 +1,25 @@
+import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Trends from "@/components/Trends";
 import Footer from "@/components/Footer";
 import ScoreMeter from "@/components/ScoreMeter";
+import JsonLd from "@/components/JsonLd";
 import { opportunities, total, firstSeen, lastSeen, totalMentions } from "@/lib/data";
+import { absoluteUrl, getSiteUrl } from "@/lib/site";
+
+const libraryDescription =
+  "持久机会库：跨社区、跨天数自动去重合并，持续追踪 Reddit 产品机会的首次出现、最近提及与累计热度。";
+
+export const metadata: Metadata = {
+  title: "机会库",
+  description: libraryDescription,
+  alternates: { canonical: "/library" },
+  openGraph: {
+    url: absoluteUrl("/library"),
+    title: "机会库",
+    description: libraryDescription,
+  },
+};
 
 /** 机会库页：与全站统一的移动端边距与字号 */
 export default function LibraryPage() {
@@ -10,6 +27,17 @@ export default function LibraryPage() {
 
   return (
     <main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "机会库",
+          description: libraryDescription,
+          url: absoluteUrl("/library"),
+          isPartOf: { "@type": "WebSite", url: getSiteUrl() },
+          numberOfItems: sorted.length,
+        }}
+      />
       <Nav />
       <header className='border-b-2 border-ink pb-5 pt-8 sm:pb-6 sm:pt-10'>
         <div className='shell'>

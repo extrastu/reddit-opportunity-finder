@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tipost",
+  "name": "opp-wiki",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-07-28",
   "compatibility_flags": ["nodejs_compat"],
@@ -8,6 +8,10 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "routes": [
+    { "pattern": "opp.wiki", "custom_domain": true },
+    { "pattern": "www.opp.wiki", "custom_domain": true }
+  ],
   "observability": {
     "enabled": true
   }

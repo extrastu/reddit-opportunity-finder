@@ -1,14 +1,17 @@
 import type { MetadataRoute } from "next";
-import { getSiteUrl } from "@/lib/site";
+import { SITE_HOST, getSiteUrl } from "@/lib/site";
 
-/** 允许全站抓取，并指向 sitemap */
+/** robots.txt：允许抓取并声明 sitemap / host */
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = getSiteUrl();
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+      },
+    ],
     sitemap: `${siteUrl}/sitemap.xml`,
+    host: SITE_HOST,
   };
 }
