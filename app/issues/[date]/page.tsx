@@ -6,15 +6,18 @@ import Footer from "@/components/Footer";
 import { ISSUE_DATES, getIssue } from "@/lib/issues";
 import { notFound } from "next/navigation";
 
+/** 预生成各期日报静态路径 */
 export function generateStaticParams() {
   return ISSUE_DATES.map((date) => ({ date }));
 }
 
-export default function IssuePage({ params }: { params: { date: string } }) {
-  if (!ISSUE_DATES.includes(params.date as (typeof ISSUE_DATES)[number])) {
+/** 单期日报页（Next 15 params 为 Promise） */
+export default async function IssuePage({ params }: { params: Promise<{ date: string }> }) {
+  const { date } = await params;
+  if (!ISSUE_DATES.includes(date as (typeof ISSUE_DATES)[number])) {
     notFound();
   }
-  const issue = getIssue(params.date);
+  const issue = getIssue(date);
 
   return (
     <main>
