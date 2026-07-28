@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { SITE_NAME, SITE_TAGLINE, getSiteUrl } from "@/lib/site";
+import PwaRegister from "@/components/PwaRegister";
 import "./globals.css";
 
 const siteUrl = getSiteUrl();
@@ -42,6 +43,22 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} · Reddit 产品机会日报`,
     description: SITE_TAGLINE,
   },
+  icons: {
+    icon: [
+      { url: "/icon", type: "image/png", sizes: "32x32" },
+      { url: "/icons/192", type: "image/png", sizes: "192x192" },
+      { url: "/icons/512", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon", type: "image/png", sizes: "180x180" }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   robots: {
     index: true,
     follow: true,
@@ -54,11 +71,22 @@ export const metadata: Metadata = {
   },
 };
 
-/** 根布局：全站 SEO 基础元信息 */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#1B1A17" },
+    { media: "(prefers-color-scheme: dark)", color: "#1B1A17" },
+  ],
+  colorScheme: "light",
+};
+
+/** 根布局：全站 SEO + PWA 基础元信息 */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='zh-CN'>
-      <body className='font-body antialiased'>{children}</body>
+      <body className='font-body antialiased'>
+        {children}
+        <PwaRegister />
+      </body>
     </html>
   );
 }
