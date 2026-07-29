@@ -83,7 +83,7 @@ export const opportunities: Opportunity[] = [
   {
     id: "op-079",
     title: "本地同步不等于备份的安全检查器",
-    subreddits: ["r/Syncthing", "r/selfhosted", "r/macapps"],
+    subreddits: ["r/Syncthing", "r/selfhosted", "r/macapps", "r/ObsidianMD"],
     quote: "Why is Syncthing NOT a backup?",
     quoteAuthor: "u/ObservedElectron",
     problem:
@@ -120,9 +120,14 @@ export const opportunities: Opportunity[] = [
         delta: 3,
         note: "近期 Syncthing 讨论围绕版本控制、不可变备份、验证和 3-2-1-1-0 策略展开；来源：https://www.reddit.com/r/Syncthing/comments/1uqp2et/",
       },
+      {
+        date: "2026-07-29",
+        delta: 2,
+        note: "Obsidian 用户报告离线两周的设备重新连接 Google Drive 后，将全部文件回退到旧状态且逐文件版本历史不可用；另一位用户确认遇到过类似表格内容回退；来源：https://www.reddit.com/r/ObsidianMD/comments/1v5pftk/",
+      },
     ],
     frequencyEvidence:
-      "一个近期主题包含多层解释和恢复方案讨论；属于长期重复概念误区，但本次只对一个主题进行了结构化统计。",
+      "Syncthing 主题包含多层备份策略讨论；随后 Obsidian 社区出现同步旧设备覆盖新文件的直接损失案例，并有另一位用户确认类似回退。",
     existingSolutions: ["Syncthing Versioning", "Time Machine", "restic", "Kopia", "Arq", "NAS 快照"],
     willingnessToPaySignals: [
       "用户愿意购买硬盘、NAS 和备用设备",
