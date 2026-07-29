@@ -17,6 +17,12 @@ export default function Nav() {
         <span className='text-rule' aria-hidden>
           /
         </span>
+        <Link href='/about' className='py-3 hover:text-ink'>
+          关于
+        </Link>
+        <span className='text-rule' aria-hidden>
+          /
+        </span>
         <a href='/feed.xml' className='py-3 hover:text-ink'>
           RSS
         </a>

@@ -24,12 +24,17 @@ export default function Footer() {
       <div className='shell'>
         <div className='flex flex-wrap items-baseline justify-between gap-3'>
           <p className='font-mono text-[10px] uppercase tracking-widest text-ink2'>数据来源</p>
-          <a
-            href='/feed.xml'
-            className='font-mono text-[11px] uppercase tracking-widest text-ink2 underline-offset-2 hover:text-ink hover:underline'
-          >
-            RSS 订阅
-          </a>
+          <div className='flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-ink2'>
+            <a href='/about' className='underline-offset-2 hover:text-ink hover:underline'>
+              关于
+            </a>
+            <span className='text-rule' aria-hidden>
+              /
+            </span>
+            <a href='/feed.xml' className='underline-offset-2 hover:text-ink hover:underline'>
+              RSS 订阅
+            </a>
+          </div>
         </div>
         <div className='mt-2 flex flex-wrap gap-1.5'>
           {SOURCES.map((s) => (
