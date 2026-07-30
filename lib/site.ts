@@ -23,3 +23,8 @@ export function absoluteUrl(path = "/"): string {
   if (!path || path === "/") return base;
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+/** 机会详情页相对路径 */
+export function opportunityPath(id: string): string {
+  return `/opportunities/${id}`;
+}

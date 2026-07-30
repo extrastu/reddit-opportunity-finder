@@ -5964,3 +5964,10 @@ export const opportunities: Opportunity[] = [
     log: [{ date: "2026-07-19", delta: 16 }],
   },
 ];
+
+/** 按 ID 查找机会；不存在则返回 undefined */
+export const getOpportunity = (id: string): Opportunity | undefined =>
+  opportunities.find((o) => o.id === id);
+
+/** 列出全部机会 ID，供静态路径生成 */
+export const listOpportunityIds = (): string[] => opportunities.map((o) => o.id);

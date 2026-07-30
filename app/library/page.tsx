@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Nav from "@/components/Nav";
 import Trends from "@/components/Trends";
 import Footer from "@/components/Footer";
 import ScoreMeter from "@/components/ScoreMeter";
 import JsonLd from "@/components/JsonLd";
 import { opportunities, total, firstSeen, lastSeen, totalMentions } from "@/lib/data";
-import { absoluteUrl, getSiteUrl } from "@/lib/site";
+import { absoluteUrl, getSiteUrl, opportunityPath } from "@/lib/site";
 
 const libraryDescription =
   "持久机会库：跨社区、跨天数自动去重合并，持续追踪 Reddit 产品机会的首次出现、最近提及与累计热度。";
@@ -53,16 +54,20 @@ export default function LibraryPage() {
       <div className='shell'>
         {sorted.map((o) => (
           <div key={o.id} className='border-b border-rule py-6 first:pt-6 sm:py-8 sm:first:pt-8'>
-            <div className='flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[10px] uppercase tracking-widest text-ink2 sm:gap-x-3'>
-              <span>{o.id}</span>
-              <span className='text-rule'>·</span>
-              {o.subreddits.map((s) => (
-                <span key={s} className='rounded-sm bg-paper2 px-1.5 py-0.5'>
-                  {s}
-                </span>
-              ))}
-            </div>
-            <h2 className='mt-1.5 font-display text-lg font-bold leading-snug sm:text-xl'>{o.title}</h2>
+            <Link href={opportunityPath(o.id)} className='group block'>
+              <div className='flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[10px] uppercase tracking-widest text-ink2 sm:gap-x-3'>
+                <span>{o.id}</span>
+                <span className='text-rule'>·</span>
+                {o.subreddits.map((s) => (
+                  <span key={s} className='rounded-sm bg-paper2 px-1.5 py-0.5'>
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <h2 className='mt-1.5 font-display text-lg font-bold leading-snug group-hover:underline sm:text-xl'>
+                {o.title}
+              </h2>
+            </Link>
             <div className='mt-3 grid gap-4 sm:grid-cols-[1fr_auto]'>
               <div className='space-y-1 font-mono text-[11px] text-ink2'>
                 <div>首次出现　{firstSeen(o)}</div>

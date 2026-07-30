@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
+import { opportunities, lastSeen } from "@/lib/data";
 import { listIssues } from "@/lib/issues";
-import { getSiteUrl } from "@/lib/site";
+import { getSiteUrl, opportunityPath } from "@/lib/site";
 
-/** 生成 sitemap：首页、机会库、各期日报 */
+/** 生成 sitemap：首页、机会库、关于、RSS、日报与全部机会详情 */
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = getSiteUrl();
   const issues = listIssues();
@@ -43,5 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...issueRoutes];
+  const opportunityRoutes: MetadataRoute.Sitemap = opportunities.map((o) => ({
+    url: `${siteUrl}${opportunityPath(o.id)}`,
+    lastModified: new Date(lastSeen(o)),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...issueRoutes, ...opportunityRoutes];
 }

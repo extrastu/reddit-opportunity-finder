@@ -1,10 +1,13 @@
+import Link from "next/link";
 import { firstSeen, lastSeen, totalMentions } from "@/lib/data";
 import { IssueEntry } from "@/lib/issues";
+import { opportunityPath } from "@/lib/site";
 import ScoreMeter from "./ScoreMeter";
 
-/** 单条机会卡片：移动端收紧间距、缩小标题与引用 */
+/** 单条机会卡片：移动端收紧间距，标题链向详情页 */
 export default function OpportunityCard({ entry }: { entry: IssueEntry }) {
   const { o, status, delta, note } = entry;
+  const href = opportunityPath(o.id);
 
   return (
     <article className='border-b border-rule px-4 py-7 first:pt-0 sm:px-8 sm:py-9'>
@@ -25,7 +28,11 @@ export default function OpportunityCard({ entry }: { entry: IssueEntry }) {
         </span>
       </div>
 
-      <h2 className='mt-2 font-display text-xl font-bold leading-snug sm:text-2xl'>{o.title}</h2>
+      <h2 className='mt-2 font-display text-xl font-bold leading-snug sm:text-2xl'>
+        <Link href={href} className='hover:underline'>
+          {o.title}
+        </Link>
+      </h2>
 
       {note && <p className='mt-1 break-words text-xs text-flag sm:text-[12px]'>触发原因：{note}</p>}
 
@@ -92,9 +99,17 @@ export default function OpportunityCard({ entry }: { entry: IssueEntry }) {
         {o.whyNow}
       </p>
 
-      <p className='mt-2 font-mono text-[10px] text-ink2/70'>
-        首次出现 {firstSeen(o)} · 最近提及 {lastSeen(o)}
-      </p>
+      <div className='mt-3 flex flex-wrap items-center justify-between gap-2'>
+        <p className='font-mono text-[10px] text-ink2/70'>
+          首次出现 {firstSeen(o)} · 最近提及 {lastSeen(o)}
+        </p>
+        <Link
+          href={href}
+          className='font-mono text-[10px] uppercase tracking-widest text-ink2 underline-offset-2 hover:text-ink hover:underline'
+        >
+          查看详情 →
+        </Link>
+      </div>
     </article>
   );
 }
