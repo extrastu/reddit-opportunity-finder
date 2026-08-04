@@ -21,6 +21,7 @@ export const ISSUE_DATES = [
   "2026-08-01",
   "2026-08-02",
   "2026-08-03",
+  "2026-08-04",
 ] as const;
 
 export type IssueEntry = {
